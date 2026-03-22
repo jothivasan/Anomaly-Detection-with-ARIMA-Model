@@ -1,0 +1,488 @@
+/* ===================================
+   ENHANCED MODEL COMPARISON STYLES
+   =================================== */
+
+/* Ensemble Overview Card */
+.ensemble-overview-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-xl);
+    color: var(--white);
+    margin-bottom: var(--spacing-xl);
+}
+
+.ensemble-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.ensemble-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+}
+
+.ensemble-info {
+    flex: 1;
+}
+
+.ensemble-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.ensemble-info p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+.ensemble-score {
+    text-align: center;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-sm);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-value {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.score-unit {
+    font-size: 1.5rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.ensemble-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+}
+
+.stat-item i {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.stat-item span {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Enhanced Model Cards Grid */
+.models-grid-enhanced {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.model-card-enhanced {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.model-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.model-card-enhanced:hover::before {
+    transform: scaleX(1);
+}
+
+.model-card-enhanced:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Model-specific gradient accents */
+.model-sarimax::before {
+    background: linear-gradient(90deg, #ff6b6b, #ee5a6f);
+}
+
+.model-iforest::before {
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+}
+
+.model-svm::before {
+    background: linear-gradient(90deg, #45b7d1, #3498db);
+}
+
+.model-lstm::before {
+    background: linear-gradient(90deg, #f093fb, #f5576c);
+}
+
+.model-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.model-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    background: linear-gradient(135deg, var(--gray-lighter), #e0e7ff);
+    color: var(--primary);
+}
+
+.model-sarimax .model-icon {
+    background: linear-gradient(135deg, #ffe5e5, #ffd4d4);
+    color: #ff6b6b;
+}
+
+.model-iforest .model-icon {
+    background: linear-gradient(135deg, #d4f8f4, #b8f1e8);
+    color: #4ecdc4;
+}
+
+.model-svm .model-icon {
+    background: linear-gradient(135deg, #d4e8f8, #b8ddf1);
+    color: #45b7d1;
+}
+
+.model-lstm .model-icon {
+    background: linear-gradient(135deg, #fce4f8, #fad4f1);
+    color: #f093fb;
+}
+
+.model-badge-enhanced {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.model-badge-enhanced.time-series {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+    color: var(--white);
+}
+
+.model-badge-enhanced.outlier {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: var(--white);
+}
+
+.model-badge-enhanced.boundary {
+    background: linear-gradient(135deg, #45b7d1, #3498db);
+    color: var(--white);
+}
+
+.model-badge-enhanced.deep-learning {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: var(--white);
+}
+
+.model-title h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.25rem;
+}
+
+.model-title p {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.model-metrics-enhanced {
+    margin: var(--spacing-lg) 0;
+}
+
+.metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.progress-bar-enhanced {
+    width: 100%;
+    height: 12px;
+    background: var(--gray-lighter);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.sarimax-fill {
+    background: linear-gradient(90deg, #ff6b6b, #ee5a6f);
+}
+
+.iforest-fill {
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+}
+
+.svm-fill {
+    background: linear-gradient(90deg, #45b7d1, #3498db);
+}
+
+.lstm-fill {
+    background: linear-gradient(90deg, #f093fb, #f5576c);
+}
+
+.model-details {
+    display: flex;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md);
+    background: var(--gray-lighter);
+    border-radius: var(--radius-md);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.85rem;
+    color: var(--dark);
+}
+
+.detail-item i {
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.model-description-enhanced {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.6;
+    padding: var(--spacing-md);
+    background: var(--gray-lighter);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary);
+}
+
+.model-description-enhanced i {
+    color: var(--primary);
+    margin-right: var(--spacing-sm);
+}
+
+/* Comparison Table */
+.comparison-table-card {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow);
+}
+
+.comparison-table-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.comparison-table-card h3 i {
+    color: var(--primary);
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.comparison-table thead {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+}
+
+.comparison-table th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.comparison-table tbody tr {
+    border-bottom: 1px solid var(--gray-lighter);
+    transition: background 0.2s ease;
+}
+
+.comparison-table tbody tr:hover {
+    background: var(--gray-lighter);
+}
+
+.comparison-table td {
+    padding: var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--dark);
+}
+
+.comparison-table .ensemble-row {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    font-weight: 600;
+}
+
+.comparison-table .ensemble-row:hover {
+    background: linear-gradient(135deg, #e0f2fe, #d0ebfd);
+}
+
+.type-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.type-badge.time-series {
+    background: #ffe5e5;
+    color: #ff6b6b;
+}
+
+.type-badge.outlier {
+    background: #d4f8f4;
+    color: #4ecdc4;
+}
+
+.type-badge.boundary {
+    background: #d4e8f8;
+    color: #45b7d1;
+}
+
+.type-badge.deep-learning {
+    background: #fce4f8;
+    color: #f093fb;
+}
+
+.type-badge.ensemble {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+}
+
+/* Responsive Design for Model Cards */
+@media (max-width: 1200px) {
+    .models-grid-enhanced {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .models-grid-enhanced {
+        grid-template-columns: 1fr;
+    }
+    
+    .ensemble-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .ensemble-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .comparison-table {
+        font-size: 0.8rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: var(--spacing-sm);
+    }
+}

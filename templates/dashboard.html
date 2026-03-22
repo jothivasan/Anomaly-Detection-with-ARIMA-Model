@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection with ARIMA Model - Advanced Multi-Model Detection Platform</title>
+    <meta name="description" content="Enterprise-grade fraud detection platform with multi-model ensemble and explainable AI">
+        <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_models.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Anomaly Detection with ARIMA Model</h1>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-menu">
+                <a href="#dashboard" class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#ingestion" class="menu-item" data-section="ingestion">
+                    <i class="fas fa-upload"></i>
+                    <span>Data Ingestion</span>
+                </a>
+                <a href="#detection" class="menu-item" data-section="detection">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span> Anomaly Detection</span>
+                </a>
+                <a href="#risk-analysis" class="menu-item" data-section="risk-analysis">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Risk Analysis</span>
+                </a>
+                <a href="#models" class="menu-item" data-section="models">
+                    <i class="fas fa-brain"></i>
+                    <span>Model Comparison</span>
+                </a>
+               
+            </div>
+            
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Dashboard Overview</h2>
+                    <div class="header-actions">
+                        
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-primary">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="totalTransactions">0</h3>
+                            <p>Total Transactions</p>
+                            <span class="kpi-change positive">
+                                <i class="fas fa-arrow-up"></i> +12.5%
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="detectedAnomalies">0</h3>
+                            <p>Detected Anomalies</p>
+                            <span class="kpi-change negative">
+                                <i class="fas fa-arrow-down"></i> -8.3%
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-warning">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="avgRiskScore">0</h3>
+                            <p>Avg Risk Score</p>
+                            <div class="risk-meter">
+                                <div class="risk-bar" id="riskBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="modelConfidence">0%</h3>
+                            <p>Model Confidence</p>
+                            <span class="kpi-change positive">
+                                <i class="fas fa-arrow-up"></i> +5.2%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-area"></i> Anomaly Timeline</h3>
+                            <!-- <select class="chart-filter">
+                                <option>Last 24 Hours</option>
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                            </select> -->
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-pie"></i> Risk Distribution</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="riskPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Ingestion Section -->
+            <section id="ingestion-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-upload"></i> Data Ingestion</h2>
+                </div>
+
+                <div class="ingestion-grid">
+                    <!-- Upload Card -->
+                    <div class="upload-card">
+                        <h3>Upload Transaction Data</h3>
+                        <div class="upload-zone" id="uploadZone">
+                            <input type="file" id="fileInput" accept=".xlsx,.csv" hidden>
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h4>Drag & Drop or Click to Upload</h4>
+                            <p>Supports .xlsx and .csv files (max 100MB)</p>
+                            <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-folder-open"></i> Browse Files
+                            </button>
+                        </div>
+                        <div class="file-preview" id="filePreview" style="display: none;">
+                            <div class="file-icon">
+                                <i class="fas fa-file-excel"></i>
+                            </div>
+                            <div class="file-details">
+                                <h4 id="fileName">filename.xlsx</h4>
+                                <p id="fileSize">0 MB</p>
+                            </div>
+                            <button class="btn-remove" onclick="removeFile()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dataset Summary -->
+                    <div class="summary-card">
+                        <h3>Dataset Summary</h3>
+                        <div class="summary-stats" id="datasetSummary">
+                            <div class="summary-item">
+                                <span class="summary-label">Records</span>
+                                <span class="summary-value" id="recordCount">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Features</span>
+                                <span class="summary-value" id="featureCount">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Missing Values</span>
+                                <span class="summary-value" id="missingCount">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Data Quality</span>
+                                <span class="summary-value quality-good" id="dataQuality">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preprocessing Status -->
+                    <div class="preprocessing-card">
+                        <h3>Preprocessing Pipeline</h3>
+                        <div class="pipeline-steps">
+                            <div class="pipeline-step" id="step1">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Data Validation</h4>
+                                    <p>Schema verification & type checking</p>
+                                </div>
+                            </div>
+                            <div class="pipeline-step" id="step2">
+                                <div class="step-icon">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Feature Engineering</h4>
+                                    <p>Creating 60+ derived features</p>
+                                </div>
+                            </div>
+                            <div class="pipeline-step" id="step3">
+                                <div class="step-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Model Training</h4>
+                                    <p>Ensemble model initialization</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Options -->
+                <div class="analysis-options-card">
+                    <h3>Analysis Configuration</h3>
+                    <div class="options-grid">
+                        <div class="option-item">
+                            <label>
+                                <input type="radio" name="analysisType" value="advanced" checked>
+                                <div class="option-content">
+                                    <h4>Advanced Multi-Model</h4>
+                                    <p>4-model ensemble with XAI</p>
+                                </div>
+                            </label>
+                        </div>
+                        <!-- <div class="option-item">
+                            <label>
+                                <input type="radio" name="analysisType" value="basic">
+                                <div class="option-content">
+                                    <h4>Basic Analysis</h4>
+                                    <p>Statistical anomaly detection</p>
+                                </div>
+                            </label>
+                        </div> -->
+                    </div>
+                    <button class="btn-analyze" id="analyzeBtn" onclick="startAnalysis()" disabled>
+                        <i class="fas fa-play-circle"></i> Start Analysis
+                    </button>
+                </div>
+            </section>
+
+            <!-- Fraud Detection Section -->
+            <section id="detection-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Anomaly Detection Results</h2>
+                    <div class="header-actions">
+
+                    </div>
+                </div>
+
+                <!-- Flagged Transactions Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Flagged Transactions</h3>
+                        <div class="table-controls">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="fraudTable">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Risk Score</th>
+                                    <th>Severity</th>
+                                    <th>Timestamp</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody id="fraudTableBody">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Risk Analysis Section -->
+            <section id="risk-analysis-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-pie"></i> Risk Analysis</h2>
+                </div>
+
+                <div class="risk-grid">
+                    <!-- Risk Score Distribution -->
+                    <div class="chart-card full-width">
+                        <div class="chart-header">
+                            <h3>Risk Score Distribution</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="riskDistChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Severity Breakdown -->
+                    <div class="severity-card">
+                        <h3>Severity Breakdown</h3>
+                        <div class="severity-list">
+                            <div class="severity-item severity-critical">
+                                <div class="severity-info">
+                                    <span class="severity-label">Critical (86-100)</span>
+                                    <span class="severity-count" id="criticalCount">0</span>
+                                </div>
+                                <div class="severity-bar">
+                                    <div class="severity-fill" id="criticalBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="severity-item severity-high">
+                                <div class="severity-info">
+                                    <span class="severity-label">High (61-85)</span>
+                                    <span class="severity-count" id="highCount">0</span>
+                                </div>
+                                <div class="severity-bar">
+                                    <div class="severity-fill" id="highBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="severity-item severity-medium">
+                                <div class="severity-info">
+                                    <span class="severity-label">Medium (31-60)</span>
+                                    <span class="severity-count" id="mediumCount">0</span>
+                                </div>
+                                <div class="severity-bar">
+                                    <div class="severity-fill" id="mediumBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="severity-item severity-low">
+                                <div class="severity-info">
+                                    <span class="severity-label">Low (0-30)</span>
+                                    <span class="severity-count" id="lowCount">0</span>
+                                </div>
+                                <div class="severity-bar">
+                                    <div class="severity-fill" id="lowBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Model Comparison Section -->
+            <section id="models-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-brain"></i> Multi-Model Ensemble Performance</h2>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-top: 0.5rem;">
+                        Advanced fraud detection using 4 complementary machine learning models
+                    </p>
+                </div>
+
+                <!-- Ensemble Overview Card -->
+                <div class="ensemble-overview-card">
+                    <div class="ensemble-header">
+                        <div class="ensemble-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="ensemble-info">
+                            <h3>Ensemble Performance</h3>
+                            <p>Combined accuracy from all models</p>
+                        </div>
+                        <div class="ensemble-score">
+                            <div class="score-circle">
+                                <span class="score-value" id="ensembleScore">93</span>
+                                <span class="score-unit">%</span>
+                            </div>
+                            <p>Accuracy</p>
+                        </div>
+                    </div>
+                    <div class="ensemble-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>4</strong>
+                                <span>Active Models</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-bolt"></i>
+                            <div>
+                                <strong>&lt;50ms</strong>
+                                <span>Latency</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>&lt;2%</strong>
+                                <span>False Positive</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <strong>0.95</strong>
+                                <span>AUC-ROC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Performance Chart -->
+                <div class="chart-card full-width" style="margin-top: 2rem;">
+                    <div class="chart-header">
+                        <div>
+                            <h3><i class="fas fa-chart-bar"></i> Model Performance Comparison</h3>
+                            <p style="color: var(--gray); font-size: 0.85rem; margin-top: 0.3rem;">
+                                Individual model scores and ensemble aggregation
+                            </p>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="height: 350px;">
+                        <canvas id="modelComparisonChart"></canvas>
+                    </div>
+                <!-- Model Comparison Table -->
+                <div class="comparison-table-card" style="margin-top: 2rem;">
+                    <h3><i class="fas fa-table"></i> Detailed Model Comparison</h3>
+                    <div class="table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Type</th>
+                                    <th>Accuracy</th>
+                                    <th>Precision</th>
+                                    <th>Recall</th>
+                                    <th>F1-Score</th>
+                                    <th>Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>SARIMAX</strong></td>
+                                    <td><span class="type-badge time-series">Time Series</span></td>
+                                    <td><span id="sarimaxScore">78%</span></td>
+                                    <td>0.78</td>
+                                    <td>0.72</td>
+                                    <td>0.75</td>
+                                    <td>25%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Isolation Forest</strong></td>
+                                    <td><span class="type-badge outlier">Outlier</span></td>
+                                    <td><span id="iforestScore">85%</span></td>
+                                    <td>0.85</td>
+                                    <td>0.80</td>
+                                    <td>0.82</td>
+                                    <td>30%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>One-Class SVM</strong></td>
+                                    <td><span class="type-badge boundary">Boundary</span></td>
+                                    <td><span id="ocsvmScore">82%</span></td>
+                                    <td>0.82</td>
+                                    <td>0.78</td>
+                                    <td>0.80</td>
+                                    <td>20%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>LSTM Autoencoder</strong></td>
+                                    <td><span class="type-badge deep-learning">Deep Learning</span></td>
+                                    <td><span id="lstmScore">88%</span></td>
+                                    <td>0.88</td>
+                                    <td>0.84</td>
+                                    <td>0.86</td>
+                                    <td>25%</td>
+                                </tr>
+                                <tr class="ensemble-row">
+                                    <td><strong>Ensemble</strong></td>
+                                    <td><span class="type-badge ensemble">Combined</span></td>
+                                    <td><strong id="ensembleScoreTable">93%</strong></td>
+                                    <td><strong>0.93</strong></td>
+                                    <td><strong>0.90</strong></td>
+                                    <td><strong>0.91</strong></td>
+                                    <td><strong>100%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Real-time Alerts Section -->
+            <section id="alerts-section" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-bell"></i> Alerts (<span id="alertCount">0</span>)</h2>
+                    <div class="header-actions">
+                        <button class="btn-icon" onclick="clearAlerts()">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                <!-- Alerts Grid -->
+                <div class="alerts-grid" id="alertsGrid">
+                    <!-- Alerts will be populated here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <h3>Processing...</h3>
+        <p id="loadingMessage">Analyzing transaction data</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
